@@ -12,17 +12,10 @@ class CommentsContainer extends Component {
       },
       NewsId: ''
     }
-    // this.getData(this.props.NewsId);
-
   }
   componentWillReceiveProps(nextProps) {
-    console.log("update props " + this.props.NewsId + " : " + nextProps.NewsId)    
     if (this.props.NewsId != nextProps.NewsId && nextProps.NewsId !== '') {
-      console.log("will update")
       this.getData(nextProps.NewsId)
-    }
-    else {
-      console.log("no update")
     }
   }
   getData(NewsId) {
@@ -36,7 +29,6 @@ class CommentsContainer extends Component {
       responseType: 'json'
     })
       .then(function (response) {
-        console.log(response.data);
         _this.setState({ NewsDetails: response.data })
       });
   }
@@ -49,7 +41,6 @@ class CommentsContainer extends Component {
         ))}
       </div>
     );
-
   }
 }
 

@@ -4,7 +4,7 @@ import { Glyphicon, Grid, Row, Col } from 'react-bootstrap';
 
 class Comments extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       NewsDetails: {
         kids: []

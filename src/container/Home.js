@@ -12,19 +12,11 @@ class Home extends Component {
       topStories: [],
       selectedNews: '',
       buttonClick: '',
-      newsItemCount: 10
+      newsItemCount: 10,
+      status: 'loading'
     }
   }
-
   componentWillMount() {
-    // axios.get("https://hacker-news.firebaseio.com/v0/topstories.json")
-    // .then = (response) => {
-    //   console.log(response);
-    // }
-    // .catch = (response) => {
-
-    // }
-
     this.getLatestNews()
   }
   handleSelectNewsItem(newsId, ev) {
@@ -34,14 +26,6 @@ class Home extends Component {
       buttonClick: 'selectedNews'
     })
   }
-
-  renderCommentsContainer() {
-    if (this.state.selectedNews !== '') {
-      return (<CommentsContainer NewsId={this.state.selectedNews}></CommentsContainer>);
-    } else {
-      return (<div></div>);
-    }
-  }
   getLatestNews() {
     var _this = this;
     axios({
@@ -50,21 +34,38 @@ class Home extends Component {
       responseType: 'json'
     })
       .then(function (response) {
-        console.log(response.data);
-        _this.setState({ topStories: response.data })
+        _this.setState({
+          topStories: response.data,
+          newsItemCount: 10,
+          status: "done",
+          buttonClick: ''
+        })
       });
   }
-  refresh = () => {
+  refresh = (event) => {
+    event.preventDefault()
     this.getLatestNews()
     this.setState({
       buttonClick: 'refreshNews',
-      newsItemCount: 10
+      newsItemCount: 10,
+      status: 'loading'
     })
   }
   handleNextTenLoad = (event) => {
     event.preventDefault()
-    console.log("handle next 10")
-    this.setState((prevState) => ({ newsItemCount: prevState.newsItemCount + 10 }))
+    this.setState((prevState) => ({
+      newsItemCount: prevState.newsItemCount + 10,
+      buttonClick: 'nextTen'
+    }))
+  }
+  renderNewsItem() {
+    if (this.state.status === 'loading') {
+      return (<div>Loading</div>)
+    } else {
+      return (this.state.topStories.slice(0, this.state.newsItemCount).map((items, i) => (
+        <NewsItem NewsId={items} key={items} buttonClick={this.state.buttonClick} selectNewsItem={(evnt) => this.handleSelectNewsItem(items, evnt)}></NewsItem>
+      )))
+    }
   }
   //.bind(this, items)
   render() {
@@ -76,15 +77,11 @@ class Home extends Component {
               <h2>News</h2>
               <Glyphicon glyph="refresh" onClick={this.refresh} />
               {this.state.newsItemCount}
-              {this.state.topStories.slice(0, this.state.newsItemCount).map((items, i) => (
-                <NewsItem NewsId={items} key={items} buttonClick={this.state.buttonClick} selectNewsItem={(evnt) => this.handleSelectNewsItem(items, evnt)}></NewsItem>
-              ))}
+              {this.renderNewsItem()}
               <a href="" onClick={this.handleNextTenLoad}>Load Next 10</a>
             </Col>
             <Col sm={6} md={9}>
               <h2>Comments</h2>
-              {/*{this.renderCommentsContainer()}*/}
-              {/* {this.state.selectedNews} */}
               <CommentsContainer NewsId={this.state.selectedNews}></CommentsContainer>
             </Col>
           </Row>
