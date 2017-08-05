@@ -14,26 +14,10 @@ class Comments extends Component {
 
   render() {
     return (
-      // <div>
-      //   <Glyphicon glyph="menu-right" /> {this.props.comments.author} {this.props.comments.points}
-      //   <div
-      //     dangerouslySetInnerHTML={{ __html: this.props.comments.text }}></div>
-      //   {/*{this.props.commentsid.text}*/}
-      //   <div>
-      //     {this.props.comments.children.map((comments, i) => (
-      //       <div>
-      //        {this.props.depth}
-      //         <Comments key={i} depth={this.props.depth+1} comments={comments} />
-      //       </div>
-      //     ))}
-      //   </div>
-      // </div>
-      // <Collapse in={this.state.open}>
         <Grid fluid='true'>
           <Row className="show-grid">
             <Col xs={1} md={1}><Glyphicon glyph="triangle-top" /></Col>
-            <Col xs={11} md={11}>{this.props.comments.author} {this.props.comments.points}</Col>
-            {/*<Col xs={10}></Col>*/}
+            <Col xs={11} md={11}><b>{this.props.comments.author}</b> {this.props.comments.points}</Col>
           </Row>
           <Row className="show-grid">
             <Col xs={1} md={1}></Col>
@@ -49,8 +33,13 @@ class Comments extends Component {
             </Col>
           </Row>
         </Grid>
-      // </Collapse>
     )
+  }
+}
+
+const styles = {
+  username: {
+    fontweight: 'bold'
   }
 }
 

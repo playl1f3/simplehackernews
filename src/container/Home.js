@@ -72,16 +72,22 @@ class Home extends Component {
     return (
       <div>
         <Grid>
-          <Row className="show-grid">
+          <Row >
             <Col sm={6} md={3}>
-              <h2>News</h2>
-              <Glyphicon glyph="refresh" onClick={this.refresh} />
-              {this.state.newsItemCount}
+              <h2 style={styles.titleStyle}>News</h2>
+              <Glyphicon glyph="refresh" style={styles.refresh} onClick={this.refresh} />              
+            </Col>
+            <Col sm={6} md={9}>
+              <h2>Comments</h2>            
+            </Col>            
+          </Row>
+          <Row className="show-grid">
+            <Col sm={6} md={3} style={styles.newsColumn}>
+              {/* {this.state.newsItemCount} */}
               {this.renderNewsItem()}
               <a href="" onClick={this.handleNextTenLoad}>Load Next 10</a>
             </Col>
-            <Col sm={6} md={9}>
-              <h2>Comments</h2>
+            <Col sm={6} md={9} style={styles.commentsColumn}>
               <CommentsContainer NewsId={this.state.selectedNews}></CommentsContainer>
             </Col>
           </Row>
@@ -90,4 +96,21 @@ class Home extends Component {
     );
   }
 }
+  const styles = {
+    refresh: { cursor: 'hand' },
+    titleStyle: {
+      color: 'red',
+      cursor: 'hand'
+    },
+    newsColumn: {
+      overflow: 'scroll',
+      height: '550px'
+    },
+    commentsColumn: {
+      overflow: 'scroll',
+      height: '550px'
+    }
+    
+  }
+
 export default Home;
